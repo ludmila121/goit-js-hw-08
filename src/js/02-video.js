@@ -1,24 +1,25 @@
- 
+import Player from '@vimeo/player';
     const iframe = document.querySelector('iframe');
-    const player = new Vimeo.Player(iframe);
+    const player = new Player(iframe);
 
     player.on('play', function() {
         console.log('played the video!')
     });
-
-    player.getVideoTitle().then(function(title) {
-        console.log('title:', title)
-    });
-   const onPlay = function(time) {
     
-};
+    const onPlay = function(time) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(time));
+    };
+    player.on('timeupdate', throttle((onPlay), 1000));
+    player.setCurrentTime(30.456).then(function(seconds) {
+    // seconds = the actual time that the player seeked to
+}).catch(function(error) {
+    switch (error.name) {
+        case 'RangeError':
+            // the time was less than 0 or greater than the video’s duration
+            break;
 
-player.on('timeupdate', onPlay);
-player.on('eventName', function(data) {
-
+        default:
+            // some other error occurred
+            break;
+    }
 });
-{
-    duration: 61.857
-    percent: 0.049
-    seconds: 3.034
-}
